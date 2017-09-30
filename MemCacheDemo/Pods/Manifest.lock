@@ -1,0 +1,12 @@
+PODS:
+  - FHLinkedList (0.0.5)
+
+DEPENDENCIES:
+  - FHLinkedList
+
+SPEC CHECKSUMS:
+  FHLinkedList: c529aff4f04db87fd1d14bc84e440adcd8c5488e
+
+PODFILE CHECKSUM: 85d0a045d393bbce9d064fb23eb253a58fa7d2f5
+
+COCOAPODS: 1.2.0
