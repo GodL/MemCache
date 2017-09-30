@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7F52FA4E06EA557F8A324018 /* libPods-MemCacheDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7761F8B2680A121345C87540 /* libPods-MemCacheDemo.a */; };
+		88725E051F7F497F00B8C9C6 /* MemCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 88725E041F7F497F00B8C9C6 /* MemCache.m */; };
 		88B511591F7BBA1500FBBC92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B511581F7BBA1500FBBC92 /* main.m */; };
 		88B5115C1F7BBA1500FBBC92 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B5115B1F7BBA1500FBBC92 /* AppDelegate.m */; };
 		88B5115F1F7BBA1500FBBC92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B5115E1F7BBA1500FBBC92 /* ViewController.m */; };
@@ -39,6 +40,8 @@
 		354D09920C1587AC69876113 /* Pods-MemCacheDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemCacheDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MemCacheDemo/Pods-MemCacheDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		62CBAC5C19AB0D91555191E3 /* Pods-MemCacheDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemCacheDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MemCacheDemo/Pods-MemCacheDemo.release.xcconfig"; sourceTree = "<group>"; };
 		7761F8B2680A121345C87540 /* libPods-MemCacheDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MemCacheDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		88725E031F7F497F00B8C9C6 /* MemCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemCache.h; sourceTree = "<group>"; };
+		88725E041F7F497F00B8C9C6 /* MemCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemCache.m; sourceTree = "<group>"; };
 		88B511541F7BBA1500FBBC92 /* MemCacheDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemCacheDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88B511581F7BBA1500FBBC92 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		88B5115A1F7BBA1500FBBC92 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -95,6 +98,8 @@
 		88B5114B1F7BBA1500FBBC92 = {
 			isa = PBXGroup;
 			children = (
+				88725E031F7F497F00B8C9C6 /* MemCache.h */,
+				88725E041F7F497F00B8C9C6 /* MemCache.m */,
 				88B511561F7BBA1500FBBC92 /* MemCacheDemo */,
 				88B511701F7BBA1500FBBC92 /* MemCacheDemoTests */,
 				88B5117B1F7BBA1500FBBC92 /* MemCacheDemoUITests */,
@@ -348,6 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88725E051F7F497F00B8C9C6 /* MemCache.m in Sources */,
 				88B5115F1F7BBA1500FBBC92 /* ViewController.m in Sources */,
 				88B5115C1F7BBA1500FBBC92 /* AppDelegate.m in Sources */,
 				88B511591F7BBA1500FBBC92 /* main.m in Sources */,
@@ -584,6 +590,7 @@
 				88B511831F7BBA1500FBBC92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		88B511841F7BBA1500FBBC92 /* Build configuration list for PBXNativeTarget "MemCacheDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -592,6 +599,7 @@
 				88B511861F7BBA1500FBBC92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		88B511871F7BBA1500FBBC92 /* Build configuration list for PBXNativeTarget "MemCacheDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -600,6 +608,7 @@
 				88B511891F7BBA1500FBBC92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

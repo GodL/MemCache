@@ -1,3 +1,4 @@
 target 'MemCacheDemo' do
 	pod 'FHLinkedList'
+    pod 'YYCache'
 end
