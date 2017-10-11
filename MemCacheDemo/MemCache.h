@@ -24,7 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property BOOL shouldClearWhenReceiveMemonryWarning;
 
+@property BOOL shouldClearWhenEnteringBackground;
+
+@property BOOL shouldReleaseOnBackground;
+
 - (void)setObject:(ValueType)obj forKey:(KeyType)key;
+
+- (void)setObject:(ValueType)obj forKey:(KeyType)key cost:(NSUInteger)cost;
+
+- (void)removeObjectWithKey:(KeyType)key;
 
 - (nullable ValueType)objectForKey:(KeyType)key;
 
