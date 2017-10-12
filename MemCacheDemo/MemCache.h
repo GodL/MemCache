@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property BOOL shouldReleaseOnBackground;
 
+- (BOOL)containsObjectForKey:(KeyType)key;
+
 - (void)setObject:(ValueType)obj forKey:(KeyType)key;
 
 - (void)setObject:(ValueType)obj forKey:(KeyType)key cost:(NSUInteger)cost;
