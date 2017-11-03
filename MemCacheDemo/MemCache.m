@@ -10,6 +10,12 @@
 #import <FHLinkedList/fh_linked.h>
 #import <UIKit/UIKit.h>
 
+#define NodeGetCacheItem(node) ((Cache_item *)((node)->value))
+
+#define NodeGetCacheValue(node) (NodeGetCacheItem(node)->value)
+
+#define NodeGetCacheCost(node) (NodeGetCacheItem(node)->cost)
+
 typedef struct Cache_item {
     void *key;
     void *value;
@@ -28,6 +34,16 @@ typedef struct Cache_item {
 }
 
 #pragma mark- private
+- (id)_removeNode:(linkNode *)node {
+    if (node->prev) node->prev->next = node->next;
+    if (node->next) node->next->prev = node->prev;
+    if (_cache_list->head == node) _cache_list->head = node->next;
+    if (_cache_list->tail == node) _cache_list->tail =node->prev;
+    _totalCost -= NodeGetCacheCost(node);
+    id value = (__bridge id)NodeGetCacheValue(node);
+    free(node);
+    return value;
+}
 
 - (void)_applicationDidReceiveMemoryWarning {
     
@@ -43,7 +59,7 @@ typedef struct Cache_item {
 - (instancetype)init {
     self = [super init];
     if (self) {
-        dispatch_queue_attr_t release_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0);
+        dispatch_queue_attr_t release_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_BACKGROUND, 0);
         _release_queue = dispatch_queue_create("com.Release.MemCache", release_attr);
         dispatch_queue_attr_t trim_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_UTILITY, 0);
         _trim_queue = dispatch_queue_create("com.Trim.MemCache", trim_attr);
@@ -84,7 +100,29 @@ typedef struct Cache_item {
 }
 
 - (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost {
+    if (!obj) {
+        [self removeObjectWithKey:key];
+        return;
+    }
     
+}
+
+- (id)objectForKey:(id)key {
+    return nil;
+}
+
+- (void)removeObjectWithKey:(id)key {
+    if (!key) return;
+    dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
+    linkNode *node = (linkNode *)CFDictionaryGetValue(_cache_hash, (__bridge const void *)(key));
+    if (node) {
+        CFDictionaryRemoveValue(_cache_hash, (__bridge const void *)(key));
+        id value = [self _removeNode:node];
+        dispatch_async(_release_queue, ^{
+            [value class];
+        });
+    }
+    dispatch_semaphore_signal(_lock);
 }
 
 @end
