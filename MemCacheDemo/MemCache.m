@@ -38,11 +38,19 @@ typedef struct Cache_item {
     if (node->prev) node->prev->next = node->next;
     if (node->next) node->next->prev = node->prev;
     if (_cache_list->head == node) _cache_list->head = node->next;
-    if (_cache_list->tail == node) _cache_list->tail =node->prev;
+    if (_cache_list->tail == node) _cache_list->tail = node->prev;
     _totalCost -= NodeGetCacheCost(node);
+    _totalCount -- ;
     id value = (__bridge id)NodeGetCacheValue(node);
     free(node);
     return value;
+}
+
+- (id)_removeTailNode {
+    if (_totalCount == 0) return nil;
+    linkNode *node = _cache_list->tail;
+    CFDictionaryRemoveValue(_cache_hash, NodeGetCacheItem(node)->key);
+    return [self _removeNode:node];
 }
 
 - (void)_applicationDidReceiveMemoryWarning {
