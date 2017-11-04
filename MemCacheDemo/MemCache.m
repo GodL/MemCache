@@ -12,6 +12,8 @@
 
 #define NodeGetCacheItem(node) ((Cache_item *)((node)->value))
 
+#define NodeGetCacheKey(node) (NodeGetCacheItem(node)->key)
+
 #define NodeGetCacheValue(node) (NodeGetCacheItem(node)->value)
 
 #define NodeGetCacheCost(node) (NodeGetCacheItem(node)->cost)
@@ -35,6 +37,7 @@ typedef struct Cache_item {
 
 #pragma mark- private
 - (id)_removeNode:(linkNode *)node {
+    CFDictionaryRemoveValue(_cache_hash, NodeGetCacheKey(node));
     if (node->prev) node->prev->next = node->next;
     if (node->next) node->next->prev = node->prev;
     if (_cache_list->head == node) _cache_list->head = node->next;
@@ -49,7 +52,6 @@ typedef struct Cache_item {
 - (id)_removeTailNode {
     if (_totalCount == 0) return nil;
     linkNode *node = _cache_list->tail;
-    CFDictionaryRemoveValue(_cache_hash, NodeGetCacheItem(node)->key);
     return [self _removeNode:node];
 }
 
@@ -124,7 +126,6 @@ typedef struct Cache_item {
     dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
     linkNode *node = (linkNode *)CFDictionaryGetValue(_cache_hash, (__bridge const void *)(key));
     if (node) {
-        CFDictionaryRemoveValue(_cache_hash, (__bridge const void *)(key));
         id value = [self _removeNode:node];
         dispatch_async(_release_queue, ^{
             [value class];
