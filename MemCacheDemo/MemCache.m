@@ -36,6 +36,18 @@ typedef struct Cache_item {
 }
 
 #pragma mark- private
+static inline Cache_item *CacheItemify(const void *key,const void *value, NSUInteger cost) {
+    Cache_item *item = malloc(sizeof(Cache_item));
+    item->key = (void *)key;
+    item->value = (void *)value;
+    item->cost = cost;
+    return item;
+}
+
+static inline void CacheNodeRelease(linkNode *node) {
+    
+}
+
 - (id)_removeNode:(linkNode *)node {
     CFDictionaryRemoveValue(_cache_hash, NodeGetCacheKey(node));
     if (node->prev) node->prev->next = node->next;
@@ -53,6 +65,19 @@ typedef struct Cache_item {
     if (_totalCount == 0) return nil;
     linkNode *node = _cache_list->tail;
     return [self _removeNode:node];
+}
+
+- (id)_removeAllNode {
+    CFDictionaryRef hash = _cache_hash;
+    _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    linkList *set = _cache_list;
+    _cache_list = linkListify(NULL);
+    CFDictionaryRemoveAllValues(_cache_hash);
+    return nil;
+}
+
+- (void)_trimToCost:(NSUInteger)cost {
+
 }
 
 - (void)_applicationDidReceiveMemoryWarning {
@@ -74,7 +99,7 @@ typedef struct Cache_item {
         dispatch_queue_attr_t trim_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_UTILITY, 0);
         _trim_queue = dispatch_queue_create("com.Trim.MemCache", trim_attr);
         _lock = dispatch_semaphore_create(1);
-        _cache_list = linkListify(NULL);
+        _cache_list = linkListify(CacheNodeRelease);
         _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         _countLimit = NSUIntegerMax;
         _costLimit = NSUIntegerMax;
@@ -114,7 +139,6 @@ typedef struct Cache_item {
         [self removeObjectWithKey:key];
         return;
     }
-    
 }
 
 - (id)objectForKey:(id)key {
