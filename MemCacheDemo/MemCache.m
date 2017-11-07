@@ -44,8 +44,11 @@ static inline Cache_item *CacheItemify(const void *key,const void *value, NSUInt
     return item;
 }
 
-static inline void CacheNodeRelease(linkNode *node) {
-    
+static inline void CacheNodeRelease(void *ptr) {
+    linkNode *node = ptr;
+    Cache_item *item = NodeGetCacheItem(node);
+    free(item);
+    item = NULL;
 }
 
 - (id)_removeNode:(linkNode *)node {
@@ -71,7 +74,17 @@ static inline void CacheNodeRelease(linkNode *node) {
     CFDictionaryRef hash = _cache_hash;
     _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     linkList *set = _cache_list;
-    _cache_list = linkListify(NULL);
+    struct linkListNodeCallback callback = {
+        CacheNodeRelease,
+        NULL
+    };
+    _cache_list = linkListify(&callback);
+    _totalCount = 0;
+    _totalCost = 0;
+    dispatch_async(_release_queue, ^{
+        CFRelease(hash);
+        linkListRelease(set);
+    });
     CFDictionaryRemoveAllValues(_cache_hash);
     return nil;
 }
@@ -99,7 +112,7 @@ static inline void CacheNodeRelease(linkNode *node) {
         dispatch_queue_attr_t trim_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_UTILITY, 0);
         _trim_queue = dispatch_queue_create("com.Trim.MemCache", trim_attr);
         _lock = dispatch_semaphore_create(1);
-        _cache_list = linkListify(CacheNodeRelease);
+        _cache_list = linkListify(NULL);
         _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         _countLimit = NSUIntegerMax;
         _costLimit = NSUIntegerMax;
