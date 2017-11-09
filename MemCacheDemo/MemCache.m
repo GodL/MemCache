@@ -154,10 +154,15 @@ static inline void CacheNodeRelease(void *ptr) {
         [self removeObjectWithKey:key];
         return;
     }
+    dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
+    
 }
 
 - (id)objectForKey:(id)key {
-    return nil;
+    dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
+    id value = CFDictionaryGetValue(_cache_hash, (__bridge const void *)(key));
+    dispatch_semaphore_signal(_lock);
+    return value;
 }
 
 - (void)removeObjectWithKey:(id)key {
