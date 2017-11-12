@@ -178,12 +178,17 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     }else {
         Cache_item *item = CacheItemify((__bridge const void *)(key), (__bridge const void *)(obj), cost);
         linkListAddHead(_cache_list, item);
+        NSLog(@"%p",_cache_list->head);
         CFDictionarySetValue(_cache_hash, (__bridge const void *)(key), _cache_list->head);
+        _totalCount ++;
         if (_totalCount > self.countLimit) {
             [self _removeTailNode];
         }
     }
-    
+    if (_totalCount > 1 &&_totalCost > _costLimit) {
+        [self _removeTailNode];;
+    }
+    dispatch_semaphore_signal(_lock);
 }
 
 - (id)objectForKey:(id)key {
@@ -201,6 +206,17 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
         [self _removeNode:node];
     }
     dispatch_semaphore_signal(_lock);
+}
+
+- (void)removeAllObjects {
+    [self _removeAllNode];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    CFRelease(_cache_hash);
+    linkListRelease(_cache_list);
 }
 
 @end

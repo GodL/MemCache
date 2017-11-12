@@ -47,6 +47,7 @@ linkList *linkListify(linkListNodeCallback* callback) {
     linkList *list;
     if ((list = malloc(sizeof(*list))) == NULL) return NULL;
     list->head = list->tail = NULL;
+    list->len = 0;
     if (callback) {
         list->node_release = (*callback).node_release;
         list->node_match = (*callback).node_match;

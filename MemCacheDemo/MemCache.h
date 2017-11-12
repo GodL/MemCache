@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)removeObjectWithKey:(KeyType)key;
 
+- (void)removeAllObjects;
+
 - (nullable ValueType)objectForKey:(KeyType)key;
 
 @end
