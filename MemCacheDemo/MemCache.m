@@ -70,6 +70,7 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     if (_cache_list->tail == node) _cache_list->tail = node->prev;
     _totalCost -= NodeGetCacheCost(node);
     _totalCount -- ;
+    _cache_list->len -- ;
     dispatch_async(_release_queue, ^{
         CacheNodeRelease(node);
         free(node);
@@ -127,7 +128,7 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
             NULL
         };
         _cache_list = linkListify(&callback);
-        _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, NULL);
         _countLimit = NSUIntegerMax;
         _costLimit = NSUIntegerMax;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationDidReceiveMemoryWarning) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
@@ -178,7 +179,6 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     }else {
         Cache_item *item = CacheItemify((__bridge const void *)(key), (__bridge const void *)(obj), cost);
         linkListAddHead(_cache_list, item);
-        NSLog(@"%p",_cache_list->head);
         CFDictionarySetValue(_cache_hash, (__bridge const void *)(key), _cache_list->head);
         _totalCount ++;
         if (_totalCount > self.countLimit) {

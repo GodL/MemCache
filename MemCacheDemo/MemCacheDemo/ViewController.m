@@ -19,10 +19,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     MemCache *mine = [MemCache new];
+    mine.countLimit = 20;
     YYMemoryCache *yycache = [YYMemoryCache new];
+    yycache.countLimit = 20;
     NSMutableArray *keys = [NSMutableArray new];
     NSMutableArray *values = [NSMutableArray new];
-    int count = 200000;
+    int count = 20000;
     for (int i = 0; i < count; i++) {
         NSObject *key;
         key = @(i); // avoid string compare

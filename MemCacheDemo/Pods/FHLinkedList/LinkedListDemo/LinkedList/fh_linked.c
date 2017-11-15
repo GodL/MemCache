@@ -176,7 +176,8 @@ linkList *linkListEmpty(linkList *list) {
     unsigned long len = list->len;
     linkNode *current = list->head;
     linkNode *next = NULL;
-    while (len --) {
+    while (len) {
+        len--;
         next = current->next;
         if (list->node_release) list->node_release(current->value);
         linkNodeRelease(current);
