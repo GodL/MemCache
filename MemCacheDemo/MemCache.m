@@ -45,8 +45,9 @@ static inline Cache_item *CacheItemify(const void *key,const void *value, NSUInt
 }
 
 static inline void CacheNodeRelease(void *ptr) {
-    linkNode *node = ptr;
-    Cache_item *item = NodeGetCacheItem(node);
+    Cache_item *item = ptr;
+    id value = (__bridge_transfer id)(item->value);
+    value = nil;
     free(item);
     item = NULL;
 }
@@ -72,7 +73,7 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     _totalCount -- ;
     _cache_list->len -- ;
     dispatch_async(_release_queue, ^{
-        CacheNodeRelease(node);
+        _cache_list->node_release(node->value);
         free(node);
     });
 }
@@ -174,10 +175,10 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
         _totalCost -= NodeGetCacheItem(node)->cost;
         _totalCount += cost;
         item->cost = cost;
-        item->value = (__bridge void *)(obj);
+        item->value = (__bridge_retained void *)(obj);
         CacheBringNodeToHeader(_cache_list, node);
     }else {
-        Cache_item *item = CacheItemify((__bridge const void *)(key), (__bridge const void *)(obj), cost);
+        Cache_item *item = CacheItemify((__bridge const void *)(key), (__bridge_retained void *)(obj), cost);
         linkListAddHead(_cache_list, item);
         CFDictionarySetValue(_cache_hash, (__bridge const void *)(key), _cache_list->head);
         _totalCount ++;
@@ -193,7 +194,12 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
 
 - (id)objectForKey:(id)key {
     dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
-    id value = CFDictionaryGetValue(_cache_hash, (__bridge const void *)(key));
+    id value = nil;
+    linkNode *node = (linkNode *)CFDictionaryGetValue(_cache_hash, (__bridge const void *)(key));
+    if (node) {
+        value = (__bridge_transfer id)(NodeGetCacheValue(node));
+        CacheBringNodeToHeader(_cache_list, node);
+    }
     dispatch_semaphore_signal(_lock);
     return value;
 }
@@ -216,7 +222,11 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     CFRelease(_cache_hash);
-    linkListRelease(_cache_list);
+    linkList *list = _cache_list;
+    _cache_list = NULL;
+    dispatch_async(_release_queue, ^{
+        linkListRelease(list);
+    });
 }
 
 @end

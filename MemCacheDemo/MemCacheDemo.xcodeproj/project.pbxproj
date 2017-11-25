@@ -17,6 +17,7 @@
 		88B511671F7BBA1500FBBC92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88B511651F7BBA1500FBBC92 /* LaunchScreen.storyboard */; };
 		88B511721F7BBA1500FBBC92 /* MemCacheDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B511711F7BBA1500FBBC92 /* MemCacheDemoTests.m */; };
 		88B5117D1F7BBA1500FBBC92 /* MemCacheDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B5117C1F7BBA1500FBBC92 /* MemCacheDemoUITests.m */; };
+		C978D00A1FBFEE04009AF8C2 /* CacheModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C978D0091FBFEE04009AF8C2 /* CacheModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,8 @@
 		88B511781F7BBA1500FBBC92 /* MemCacheDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemCacheDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88B5117C1F7BBA1500FBBC92 /* MemCacheDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemCacheDemoUITests.m; sourceTree = "<group>"; };
 		88B5117E1F7BBA1500FBBC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C978D0081FBFEE04009AF8C2 /* CacheModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheModel.h; sourceTree = "<group>"; };
+		C978D0091FBFEE04009AF8C2 /* CacheModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +129,8 @@
 				88B5115B1F7BBA1500FBBC92 /* AppDelegate.m */,
 				88B5115D1F7BBA1500FBBC92 /* ViewController.h */,
 				88B5115E1F7BBA1500FBBC92 /* ViewController.m */,
+				C978D0081FBFEE04009AF8C2 /* CacheModel.h */,
+				C978D0091FBFEE04009AF8C2 /* CacheModel.m */,
 				88B511601F7BBA1500FBBC92 /* Main.storyboard */,
 				88B511631F7BBA1500FBBC92 /* Assets.xcassets */,
 				88B511651F7BBA1500FBBC92 /* LaunchScreen.storyboard */,
@@ -354,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88725E051F7F497F00B8C9C6 /* MemCache.m in Sources */,
+				C978D00A1FBFEE04009AF8C2 /* CacheModel.m in Sources */,
 				88B5115F1F7BBA1500FBBC92 /* ViewController.m in Sources */,
 				88B5115C1F7BBA1500FBBC92 /* AppDelegate.m in Sources */,
 				88B511591F7BBA1500FBBC92 /* main.m in Sources */,
