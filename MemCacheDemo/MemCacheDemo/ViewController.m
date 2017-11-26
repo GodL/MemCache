@@ -23,23 +23,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _mine = [MemCache new];
-    _mine.countLimit = 20;
     _yycache = [YYMemoryCache new];
     _yycache.countLimit = 20;
     NSMutableArray *keys = [NSMutableArray new];
     NSMutableArray *values1 = [NSMutableArray array];
     NSMutableArray *values2 = [NSMutableArray array];
-    int count = 100;
+    int count = 1;
     for (int i = 0; i < count; i++) {
-        NSObject *key;
+        NSNumber *key;
         key = @(i); // avoid string compare
         //key = @(i).description; // it will slow down NSCache...
         //key = [NSUUID UUID].UUIDString;
         [keys addObject:key];
         CacheModel *model1 = [CacheModel new];
+        model1.name = [key stringValue];
         CacheModel *model2 = [CacheModel new];
         model2.name = @"yycache";
-        model1.name = @"mine";
         [values1 addObject:model1];
         [values2 addObject:model2];
     }
@@ -81,11 +80,14 @@
 }
 
 - (void)buttonAction:(UIButton *)b{
-    _yycache = nil;
+    NSInteger idx = arc4random_uniform((u_int32_t)1);
+    CacheModel *value = [_mine objectForKey:@(idx)];
+    NSLog(@"%@  %@",value,value.name);
 }
 
 - (void)buttonAction1:(UIButton*)b {
-    _mine = nil;
+    NSInteger idx = arc4random_uniform((u_int32_t)1);
+    [_mine removeObjectWithKey:@(idx)];
 }
 
 

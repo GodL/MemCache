@@ -198,6 +198,8 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     linkNode *node = (linkNode *)CFDictionaryGetValue(_cache_hash, (__bridge const void *)(key));
     if (node) {
         value = (__bridge_transfer id)(NodeGetCacheValue(node));
+        Cache_item *item = NodeGetCacheItem(node);
+        item->value = (__bridge_retained void *)(value);
         CacheBringNodeToHeader(_cache_list, node);
     }
     dispatch_semaphore_signal(_lock);
