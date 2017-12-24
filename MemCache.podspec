@@ -1,8 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = 'MemCache'
   s.summary      = 'High performance cache framework for iOS.'
-  s.version      = '1.0.4'
+  s.version      = '1.0.5'
   s.license      = "MIT"
+    s.platform     = :ios, '6.0'
   s.authors      = { 'GodL' => '547188371@qq.com' }
   s.social_media_url = 'https://github.com/GodL/MemCache'
   s.homepage     = 'https://github.com/GodL/MemCache'
@@ -10,5 +11,5 @@ Pod::Spec.new do |s|
   s.dependency  'FHLinkedList'
   s.requires_arc = true
   s.source_files = 'MemCache/*.{h,m}'
-  s.frameworks = 'UIKit', 'CoreFoundation' 
+  s.frameworks   = 'UIKit', 'CoreFoundation' 
 end
