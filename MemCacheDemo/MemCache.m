@@ -132,6 +132,8 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
         _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, NULL);
         _countLimit = NSUIntegerMax;
         _costLimit = NSUIntegerMax;
+        _shouldClearWhenEnteringBackground = YES;
+        _shouldClearWhenReceiveMemonryWarning = YES;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationDidReceiveMemoryWarning) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationDidEnteringBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
