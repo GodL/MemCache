@@ -101,16 +101,16 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     });
 }
 
-- (void)_trimToCost:(NSUInteger)cost {
-
-}
-
 - (void)_applicationDidReceiveMemoryWarning {
-    
+    if (self.shouldClearWhenReceiveMemonryWarning) {
+        [self removeAllObjects];
+    }
 }
 
 - (void)_applicationDidEnteringBackground {
-    
+    if (self.shouldClearWhenEnteringBackground) {
+        [self removeAllObjects];
+    }
 }
 
 
