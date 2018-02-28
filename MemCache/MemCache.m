@@ -86,7 +86,7 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
 
 - (void)_removeAllNode {
     CFDictionaryRef hash = _cache_hash;
-    _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    _cache_hash = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, NULL);
     linkList *set = _cache_list;
     struct linkListNodeCallback callback = {
         CacheNodeRelease,
