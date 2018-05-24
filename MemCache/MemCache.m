@@ -73,7 +73,10 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     _totalCount -- ;
     _cache_list->len -- ;
     dispatch_async(_release_queue, ^{
-        _cache_list->node_release(node->value);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-retain-cycles"
+        self->_cache_list->node_release(node->value);
+#pragma clang diagnostic pop
         free(node);
     });
 }
