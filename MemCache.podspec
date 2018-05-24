@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'MemCache'
   s.summary      = 'High performance cache framework for iOS.'
-  s.version      = '1.1.0'
+  s.version      = '1.1.1'
   s.license      = "MIT"
     s.platform     = :ios, '8.0'
   s.authors      = { 'GodL' => '547188371@qq.com' }
