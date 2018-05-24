@@ -175,7 +175,7 @@ static inline void CacheBringNodeToHeader(linkList *list,linkNode *node) {
     if (node) {
         Cache_item *item = NodeGetCacheItem(node);
         _totalCost -= NodeGetCacheItem(node)->cost;
-        _totalCount += cost;
+        _totalCost += cost;
         item->cost = cost;
         item->value = (__bridge_retained void *)(obj);
         CacheBringNodeToHeader(_cache_list, node);
